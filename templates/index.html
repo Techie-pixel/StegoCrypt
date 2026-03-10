@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StegoCrypt — Advanced Steganography Tool</title>
+    <meta name="description"
+        content="Hide and reveal secret messages in images, audio, and video files using advanced LSB steganography.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- Animated background particles -->
+    <div class="bg-particles" id="bgParticles"></div>
+
+    <!-- Header -->
+    <header class="app-header">
+        <div class="header-top">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <svg width="44" height="44" viewBox="0 0 44 44" fill="none">
+                        <rect x="2" y="2" width="40" height="40" rx="10" stroke="url(#logoGrad)" stroke-width="2.5"
+                            fill="none" />
+                        <path d="M14 22 L20 28 L30 16" stroke="url(#logoGrad)" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" fill="none" />
+                        <circle cx="22" cy="22" r="3" fill="url(#logoGrad)" opacity="0.4" />
+                        <defs>
+                            <linearGradient id="logoGrad" x1="0" y1="0" x2="44" y2="44">
+                                <stop offset="0%" stop-color="#00d9ff" />
+                                <stop offset="100%" stop-color="#a855f7" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="app-title">StegoCrypt</h1>
+                    <p class="app-subtitle">Advanced Steganography Suite</p>
+                </div>
+            </div>
+            <div class="toggle-container">
+                <input type="checkbox" id="themeToggle" class="toggle-checkbox">
+                <label for="themeToggle" class="toggle-label">
+                    <span class="toggle-inner"></span>
+                    <span class="toggle-switch"></span>
+                </label>
+            </div>
+        </div>
+        <p class="header-tagline">Hide & Reveal Secret Messages in <span class="highlight">Image</span> · <span
+                class="highlight">Audio</span> · <span class="highlight">Video</span></p>
+    </header>
+
+    <!-- Tab Navigation -->
+    <nav class="tab-nav" id="tabNav">
+        <button class="tab-btn active" data-tab="image" id="tabBtnImage">
+            <span class="tab-icon">🖼️</span>
+            <span class="tab-label">Image</span>
+            <span class="tab-formats">PNG · JPG · BMP</span>
+        </button>
+        <button class="tab-btn" data-tab="audio" id="tabBtnAudio">
+            <span class="tab-icon">🎵</span>
+            <span class="tab-label">Audio</span>
+            <span class="tab-formats">WAV · MP3 · OGG</span>
+        </button>
+        <button class="tab-btn" data-tab="video" id="tabBtnVideo">
+            <span class="tab-icon">🎬</span>
+            <span class="tab-label">Video</span>
+            <span class="tab-formats">MP4 · AVI · MKV</span>
+        </button>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- ═══════════ IMAGE TAB ═══════════ -->
+        <section class="tab-panel active" id="panelImage">
+            <div class="panels-grid">
+
+                <!-- Encode Card -->
+                <div class="card encode-card">
+                    <div class="card-header">
+                        <div class="card-badge encode-badge">ENCODE</div>
+                        <h2 class="card-title">Hide Message</h2>
+                        <p class="card-desc">Embed a secret message inside an image file</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="encodeImageDrop" data-type="encode_image">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="6" y="10" width="36" height="28" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <circle cx="18" cy="22" r="4" stroke="currentColor" stroke-width="2" />
+                                        <path d="M6 34 L16 26 L22 30 L32 20 L42 28" stroke="currentColor"
+                                            stroke-width="2" fill="none" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop image here or <span class="browse-link">browse</span></p>
+                                <p class="dropzone-hint">Supports PNG, JPG, BMP</p>
+                            </div>
+                            <input type="file" class="file-input" id="encodeImageFile" accept=".png,.jpg,.jpeg,.bmp"
+                                hidden>
+                            <div class="file-selected" id="encodeImageSelected" style="display:none;">
+                                <span class="file-icon">📄</span>
+                                <span class="file-name" id="encodeImageFileName"></span>
+                                <button class="file-remove" onclick="clearFile('encodeImage')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Secret Message</label>
+                            <textarea class="message-input" id="encodeImageMsg"
+                                placeholder="Type your secret message here..." rows="4"></textarea>
+                            <div class="char-count"><span id="encodeImageCharCount">0</span> characters</div>
+                        </div>
+
+                        <button class="action-btn encode-btn" id="encodeImageBtn" onclick="encodeFile('image')">
+                            <span class="btn-icon">🔒</span>
+                            <span class="btn-text">Encode & Download</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Decode Card -->
+                <div class="card decode-card">
+                    <div class="card-header">
+                        <div class="card-badge decode-badge">DECODE</div>
+                        <h2 class="card-title">Reveal Message</h2>
+                        <p class="card-desc">Extract hidden message from an encoded image</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="decodeImageDrop" data-type="decode_image">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="6" y="10" width="36" height="28" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <path d="M20 20 L24 28 L28 20" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
+                                        <line x1="24" y1="28" x2="24" y2="34" stroke="currentColor" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop encoded image or <span class="browse-link">browse</span>
+                                </p>
+                                <p class="dropzone-hint">Supports PNG</p>
+                            </div>
+                            <input type="file" class="file-input" id="decodeImageFile" accept=".png" hidden>
+                            <div class="file-selected" id="decodeImageSelected" style="display:none;">
+                                <span class="file-icon">📄</span>
+                                <span class="file-name" id="decodeImageFileName"></span>
+                                <button class="file-remove" onclick="clearFile('decodeImage')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <div class="progress-bar-container" style="display:none;">
+                            <div class="progress-bar"></div>
+                        </div>
+
+                        <button class="action-btn decode-btn" id="decodeImageBtn" onclick="decodeFile('image')">
+                            <span class="btn-icon">🔓</span>
+                            <span class="btn-text">Decode Message</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+
+                        <div class="result-box" id="decodeImageResult" style="display:none;">
+                            <div class="result-header">
+                                <span class="result-label">Hidden Message Found</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="copy-btn" onclick="clearDecodeResult('image')" title="Clear"
+                                        style="background: rgba(248, 87, 166, 0.1); border-color: rgba(248, 87, 166, 0.2); color: var(--accent-pink);">
+                                        <span>✕ Clear</span>
+                                    </button>
+                                    <button class="copy-btn" onclick="copyResult('decodeImageResultText')"
+                                        title="Copy to clipboard">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                            <path
+                                                d="M4 4v-2a1 1 0 011-1h8a1 1 0 011 1v8a1 1 0 01-1 1h-2v2a1 1 0 01-1 1h-8a1 1 0 01-1-1v-8a1 1 0 011-1h2zm1 0h5a1 1 0 011 1v5h2v-8h-8v2z" />
+                                        </svg>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre class="result-text" id="decodeImageResultText"></pre>
+                            <div class="result-meta" id="decodeImageMeta"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════ AUDIO TAB ═══════════ -->
+        <section class="tab-panel" id="panelAudio">
+            <div class="panels-grid">
+
+                <div class="card encode-card">
+                    <div class="card-header">
+                        <div class="card-badge encode-badge">ENCODE</div>
+                        <h2 class="card-title">Hide Message</h2>
+                        <p class="card-desc">Embed a secret message inside an audio file</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="encodeAudioDrop" data-type="encode_audio">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="10" y="6" width="28" height="36" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <path d="M20 18 v12 M24 14 v20 M28 20 v8 M32 16 v16 M16 22 v4"
+                                            stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop audio file or <span class="browse-link">browse</span></p>
+                                <p class="dropzone-hint">Supports WAV, MP3, OGG, FLAC, M4A</p>
+                            </div>
+                            <input type="file" class="file-input" id="encodeAudioFile"
+                                accept=".wav,.mp3,.ogg,.flac,.m4a" hidden>
+                            <div class="file-selected" id="encodeAudioSelected" style="display:none;">
+                                <span class="file-icon">🎵</span>
+                                <span class="file-name" id="encodeAudioFileName"></span>
+                                <button class="file-remove" onclick="clearFile('encodeAudio')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Secret Message</label>
+                            <textarea class="message-input" id="encodeAudioMsg"
+                                placeholder="Type your secret message here..." rows="4"></textarea>
+                            <div class="char-count"><span id="encodeAudioCharCount">0</span> characters</div>
+                        </div>
+
+                        <button class="action-btn encode-btn" id="encodeAudioBtn" onclick="encodeFile('audio')">
+                            <span class="btn-icon">🔒</span>
+                            <span class="btn-text">Encode & Download</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card decode-card">
+                    <div class="card-header">
+                        <div class="card-badge decode-badge">DECODE</div>
+                        <h2 class="card-title">Reveal Message</h2>
+                        <p class="card-desc">Extract hidden message from an encoded audio file</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="decodeAudioDrop" data-type="decode_audio">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="10" y="6" width="28" height="36" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <path d="M24 18 v8 M20 22 h8" stroke="currentColor" stroke-width="2.5"
+                                            stroke-linecap="round" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop encoded audio or <span class="browse-link">browse</span>
+                                </p>
+                                <p class="dropzone-hint">Supports WAV</p>
+                            </div>
+                            <input type="file" class="file-input" id="decodeAudioFile"
+                                accept=".wav,.mp3,.ogg,.flac,.m4a" hidden>
+                            <div class="file-selected" id="decodeAudioSelected" style="display:none;">
+                                <span class="file-icon">🎵</span>
+                                <span class="file-name" id="decodeAudioFileName"></span>
+                                <button class="file-remove" onclick="clearFile('decodeAudio')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <button class="action-btn decode-btn" id="decodeAudioBtn" onclick="decodeFile('audio')">
+                            <span class="btn-icon">🔓</span>
+                            <span class="btn-text">Decode Message</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+
+                        <div class="result-box" id="decodeAudioResult" style="display:none;">
+                            <div class="result-header">
+                                <span class="result-label">Hidden Message Found</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="copy-btn" onclick="clearDecodeResult('audio')" title="Clear"
+                                        style="background: rgba(248, 87, 166, 0.1); border-color: rgba(248, 87, 166, 0.2); color: var(--accent-pink);">
+                                        <span>✕ Clear</span>
+                                    </button>
+                                    <button class="copy-btn" onclick="copyResult('decodeAudioResultText')"
+                                        title="Copy to clipboard">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                            <path
+                                                d="M4 4v-2a1 1 0 011-1h8a1 1 0 011 1v8a1 1 0 01-1 1h-2v2a1 1 0 01-1 1h-8a1 1 0 01-1-1v-8a1 1 0 011-1h2zm1 0h5a1 1 0 011 1v5h2v-8h-8v2z" />
+                                        </svg>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre class="result-text" id="decodeAudioResultText"></pre>
+                            <div class="result-meta" id="decodeAudioMeta"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ═══════════ VIDEO TAB ═══════════ -->
+        <section class="tab-panel" id="panelVideo">
+            <div class="panels-grid">
+
+                <div class="card encode-card">
+                    <div class="card-header">
+                        <div class="card-badge encode-badge">ENCODE</div>
+                        <h2 class="card-title">Hide Message</h2>
+                        <p class="card-desc">Embed a secret message inside a video file</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="encodeVideoDrop" data-type="encode_video">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="4" y="10" width="30" height="28" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <path d="M34 18 L44 12 V36 L34 30 Z" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop video file or <span class="browse-link">browse</span></p>
+                                <p class="dropzone-hint">Supports MP4, AVI, MKV, MOV</p>
+                            </div>
+                            <input type="file" class="file-input" id="encodeVideoFile" accept=".mp4,.avi,.mkv,.mov"
+                                hidden>
+                            <div class="file-selected" id="encodeVideoSelected" style="display:none;">
+                                <span class="file-icon">🎬</span>
+                                <span class="file-name" id="encodeVideoFileName"></span>
+                                <button class="file-remove" onclick="clearFile('encodeVideo')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <div class="input-group">
+                            <label class="input-label">Secret Message</label>
+                            <textarea class="message-input" id="encodeVideoMsg"
+                                placeholder="Type your secret message here..." rows="4"></textarea>
+                            <div class="char-count"><span id="encodeVideoCharCount">0</span> characters</div>
+                        </div>
+
+                        <button class="action-btn encode-btn" id="encodeVideoBtn" onclick="encodeFile('video')">
+                            <span class="btn-icon">🔒</span>
+                            <span class="btn-text">Encode & Download</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="card decode-card">
+                    <div class="card-header">
+                        <div class="card-badge decode-badge">DECODE</div>
+                        <h2 class="card-title">Reveal Message</h2>
+                        <p class="card-desc">Extract hidden message from an encoded video</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="dropzone" id="decodeVideoDrop" data-type="decode_video">
+                            <div class="dropzone-content">
+                                <div class="dropzone-icon">
+                                    <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+                                        <rect x="4" y="10" width="30" height="28" rx="4" stroke="currentColor"
+                                            stroke-width="2" />
+                                        <path d="M34 18 L44 12 V36 L34 30 Z" stroke="currentColor" stroke-width="2"
+                                            fill="none" />
+                                        <circle cx="19" cy="24" r="5" stroke="currentColor" stroke-width="2" />
+                                    </svg>
+                                </div>
+                                <p class="dropzone-text">Drop encoded video or <span class="browse-link">browse</span>
+                                </p>
+                                <p class="dropzone-hint">Supports AVI, MP4</p>
+                            </div>
+                            <input type="file" class="file-input" id="decodeVideoFile" accept=".avi,.mp4" hidden>
+                            <div class="file-selected" id="decodeVideoSelected" style="display:none;">
+                                <span class="file-icon">🎬</span>
+                                <span class="file-name" id="decodeVideoFileName"></span>
+                                <button class="file-remove" onclick="clearFile('decodeVideo')" title="Remove">✕</button>
+                            </div>
+                        </div>
+
+                        <button class="action-btn decode-btn" id="decodeVideoBtn" onclick="decodeFile('video')">
+                            <span class="btn-icon">🔓</span>
+                            <span class="btn-text">Decode Message</span>
+                            <div class="btn-loader" style="display:none;"></div>
+                        </button>
+
+                        <div class="result-box" id="decodeVideoResult" style="display:none;">
+                            <div class="result-header">
+                                <span class="result-label">Hidden Message Found</span>
+                                <div style="display: flex; gap: 8px;">
+                                    <button class="copy-btn" onclick="clearDecodeResult('video')" title="Clear"
+                                        style="background: rgba(248, 87, 166, 0.1); border-color: rgba(248, 87, 166, 0.2); color: var(--accent-pink);">
+                                        <span>✕ Clear</span>
+                                    </button>
+                                    <button class="copy-btn" onclick="copyResult('decodeVideoResultText')"
+                                        title="Copy to clipboard">
+                                        <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+                                            <path
+                                                d="M4 4v-2a1 1 0 011-1h8a1 1 0 011 1v8a1 1 0 01-1 1h-2v2a1 1 0 01-1 1h-8a1 1 0 01-1-1v-8a1 1 0 011-1h2zm1 0h5a1 1 0 011 1v5h2v-8h-8v2z" />
+                                        </svg>
+                                        <span>Copy</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <pre class="result-text" id="decodeVideoResultText"></pre>
+                            <div class="result-meta" id="decodeVideoMeta"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast notification -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Footer -->
+    <footer class="app-footer">
+        <div class="footer-content">
+            <span class="footer-icon">🛡️</span>
+            <span>Secure · Private · Undetectable — LSB Steganography Engine</span>
+        </div>
+    </footer>
+
+    <script src="/static/script.js"></script>
+    <script src="/static/theme.js"></script>
+</body>
+
+</html>
