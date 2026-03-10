@@ -28,7 +28,7 @@ pip install Pillow opencv-python numpy pydub
 
 ### Step 3: Run the Application
 ```bash
-python steganography_app.py
+python app.py
 ```
 
 ## 📖 How to Use
@@ -95,14 +95,6 @@ The application uses LSB steganography which modifies the least significant bit 
 Uses binary delimiter `1111111111111110` to mark the end of hidden message.
 
 ## 📊 Project Structure
-
-```
-steganography-project/
-│
-├── steganography_app.py    # Main application
-├── requirements.txt         # Dependencies
-└── README.md               # Documentation
-```
 
 ## ⚠️ Important Notes
 
