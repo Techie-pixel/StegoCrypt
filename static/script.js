@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', () => {
     initTabs();
     initDropzones();
     initCharCounters();
-    spawnParticles();
 });
 
 // ── Tab Switching ──
@@ -336,29 +335,5 @@ function setButtonLoading(btn, loading) {
         // Restore original text
         const isEncode = btn.classList.contains('encode-btn');
         if (text) text.textContent = isEncode ? 'Encode & Download' : 'Decode Message';
-    }
-}
-
-// ── Floating particles ──
-function spawnParticles() {
-    const container = document.getElementById('bgParticles');
-    if (!container) return;
-
-    const isDark = !document.documentElement.getAttribute('data-theme') || document.documentElement.getAttribute('data-theme') === 'dark';
-    const colors = isDark
-        ? ['rgba(0,217,255,0.3)', 'rgba(168,85,247,0.25)', 'rgba(0,232,123,0.2)', 'rgba(248,87,166,0.2)']
-        : ['rgba(0,180,220,0.2)', 'rgba(136,64,217,0.15)', 'rgba(0,184,77,0.12)', 'rgba(214,51,132,0.12)'];
-
-    for (let i = 0; i < 30; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        const size = Math.random() * 4 + 1;
-        p.style.width = size + 'px';
-        p.style.height = size + 'px';
-        p.style.left = Math.random() * 100 + '%';
-        p.style.background = colors[Math.floor(Math.random() * colors.length)];
-        p.style.animationDuration = (Math.random() * 15 + 10) + 's';
-        p.style.animationDelay = (Math.random() * 10) + 's';
-        container.appendChild(p);
     }
 }

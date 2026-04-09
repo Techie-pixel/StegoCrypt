@@ -1,15 +1,15 @@
-# 🔐 Steganography Tool - Image | Audio | Video
+# 🔐 StegoCrypt - Advanced Steganography Tool
 
-Complete Python-based Steganography application with GUI for hiding secret messages in multimedia files.
+Complete Python-based Steganography application with a modern Web GUI for hiding secret messages in multimedia files using Flask.
 
 ## ✨ Features
 
 - **Image Steganography**: Hide messages in PNG, JPG, JPEG, BMP images
 - **Audio Steganography**: Hide messages in WAV audio files
 - **Video Steganography**: Hide messages in MP4, AVI, MKV video files
-- **User-friendly GUI**: Easy-to-use interface with tabs
+- **Modern Web Interface**: Sleek, glassmorphic UI with Day/Night modes
 - **LSB Encoding**: Uses Least Significant Bit technique
-- **Secure**: Messages hidden imperceptibly
+- **Secure**: Messages hidden imperceptibly with binary delimiters
 
 ## 🚀 Installation
 
@@ -23,7 +23,7 @@ pip install -r requirements.txt
 
 Or install individually:
 ```bash
-pip install Pillow opencv-python numpy pydub
+pip install Flask Pillow opencv-python numpy
 ```
 
 ### Step 3: Run the Application
@@ -31,53 +31,55 @@ pip install Pillow opencv-python numpy pydub
 python app.py
 ```
 
+Open `http://localhost:5000` in your browser.
+
 ## 📖 How to Use
 
 ### Image Steganography
 
 #### Encoding:
-1. Go to the "🖼️ Image" tab
-2. Click "Select Image" and choose your image file
-3. Type your secret message in the text box
-4. Click "Encode & Save"
-5. Choose where to save the encoded image (PNG format)
+1. Go to the "🖼️ Image" tab.
+2. Drag and drop or click to browse for an image file.
+3. Type your secret message in the "Secret Message" box.
+4. Click "Encode & Download".
+5. The encoded image will be downloaded in PNG format.
 
 #### Decoding:
-1. Scroll down to the decode section
-2. Click "Select Encoded Image"
-3. Click "Decode Message"
-4. Your secret message will be revealed!
+1. Go to the "Reveal Message" section in the Image tab.
+2. Upload the encoded PNG image.
+3. Click "Decode Message".
+4. Your secret message will be revealed in the result box!
 
 ### Audio Steganography
 
 #### Encoding:
-1. Go to the "🎵 Audio" tab
-2. Click "Select Audio File (WAV)" and choose your WAV file
-3. Type your secret message
-4. Click "Encode & Save"
-5. Save the encoded audio file
+1. Go to the "🎵 Audio" tab.
+2. Select a WAV audio file.
+3. Enter your secret message.
+4. Click "Encode & Download".
+5. Save the resulting WAV file.
 
-**Note**: Only WAV files are supported for audio steganography.
+**Note**: WAV files are recommended for best results.
 
 #### Decoding:
-1. Click "Select Encoded Audio"
-2. Click "Decode Message"
+1. Upload the encoded WAV file in the Decode section.
+2. Click "Decode Message".
 3. View your hidden message!
 
 ### Video Steganography
 
 #### Encoding:
-1. Go to the "🎬 Video" tab
-2. Click "Select Video File"
-3. Enter your secret message
-4. Click "Encode & Save"
-5. Save as AVI file
+1. Go to the "🎬 Video" tab.
+2. Upload a video file (MP4, AVI, MKV).
+3. Enter your secret message.
+4. Click "Encode & Download".
+5. The encoded video is saved in AVI format (lossless).
 
-**Note**: Message is hidden in the first frame of the video.
+**Note**: Message is hidden in the first frame of the video for efficiency.
 
 #### Decoding:
-1. Click "Select Encoded Video"
-2. Click "Decode Message"
+1. Upload the encoded AVI video in the Decode section.
+2. Click "Decode Message".
 3. Extract your hidden message!
 
 ## 🛠️ Technical Details
@@ -87,22 +89,30 @@ The application uses LSB steganography which modifies the least significant bit 
 
 ### Supported Formats
 
-**Images**: PNG, JPG, JPEG, BMP (Output: PNG)
-**Audio**: WAV (Input and Output)
-**Video**: MP4, AVI, MKV (Input: Multiple, Output: AVI)
+- **Images**: PNG, JPG, JPEG, BMP (Output: PNG)
+- **Audio**: WAV, MP3, OGG (Input), WAV (Output)
+- **Video**: MP4, AVI, MKV (Input), AVI (Output)
 
 ### Delimiter
-Uses binary delimiter `1111111111111110` to mark the end of hidden message.
+Uses binary delimiter `1111111111111110` to mark the end of the hidden message.
 
 ## 📊 Project Structure
 
+```
+steganography-project/
+│
+├── app.py    # Main application
+├── requirements.txt         # Dependencies
+└── README.md               # Documentation
+```
+
 ## ⚠️ Important Notes
 
-1. **Image**: Always save encoded images as PNG to preserve data
-2. **Audio**: Only WAV format supported for best quality
-3. **Video**: Encoded video saved as AVI format
-4. **Message Size**: Message should be smaller than the media file capacity
-5. **Original Files**: Keep original files safe, encoded files may be larger
+1. **Image**: Always use the downloaded PNG to preserve hidden data.
+2. **Audio**: WAV format is preferred for high-fidelity data hiding.
+3. **Video**: Encoded video is saved as AVI to avoid compression artifacts.
+4. **Message Size**: Ensure the message fits within the media's capacity.
+5. **Original Files**: Keep backups of your original media files.
 
 ## 🎓 For Academic Projects
 
@@ -115,16 +125,13 @@ This tool is perfect for:
 ## 🐛 Troubleshooting
 
 ### Error: "Message too large"
-- Use a larger image/audio/video file
-- Or reduce your message length
+- Use a larger image/audio/video file or shorten your message.
 
 ### Video encoding takes time
-- Normal behavior, especially for large videos
-- First frame encoding is used for faster processing
+- This is normal for video processing; the message is hidden in the first frame to save time.
 
 ### Audio not working
-- Make sure audio file is in WAV format
-- Convert MP3/other formats to WAV first
+- Ensure the file is a valid audio format. Convert to WAV if necessary.
 
 ## 📝 Example Usage
 
@@ -135,36 +142,26 @@ message = "Hello Secret World!"
 # Hides in LSB of pixels/audio samples
 ```
 
-## 🎨 GUI Features
+## 🎨 UI Features
 
-- **Dark Theme**: Easy on the eyes
-- **Tabbed Interface**: Separate tabs for each media type
-- **File Selection**: Visual feedback for selected files
-- **Progress Messages**: Success/error notifications
-- **Intuitive Design**: Simple and clean layout
+- **Glassmorphism Design**: Modern, frosted-glass look.
+- **Day/Night Modes**: Switch themes easily with a toggle.
+- **Interactive Dropzones**: Drag and drop support with visual feedback.
+- **Toast Notifications**: Clean success/error alerts.
+- **Animated Background**: Cyberpunk-style Matrix animation.
 
 ## 💡 Tips
 
-1. Use PNG for images (lossless format)
-2. Larger files can hide longer messages
-3. Keep original files as backup
-4. Test with small messages first
-5. Encoded files look identical to originals
+1. Use PNG for images to avoid data loss from compression.
+2. Larger media files provide more "space" for longer messages.
+3. Test with short messages first to understand the flow.
+4. Encoded files look identical to the originals to the naked eye.
 
 ## 🔒 Security Note
 
 This is for educational purposes. For real security needs:
-- Add encryption before steganography
-- Use password protection
-- Implement additional security layers
-
-## 📞 Support
-
-For issues or questions:
-1. Check the error message
-2. Verify file formats
-3. Ensure all dependencies are installed
-4. Check file permissions
+- Encrypt your message before hiding it.
+- Use strong passwords and additional security layers.
 
 ## 🌟 Credits
 

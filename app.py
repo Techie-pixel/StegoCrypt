@@ -4,6 +4,7 @@ Flask backend with Image, Audio & Video steganography
 """
 
 from flask import Flask, render_template, request, jsonify, send_file
+from flask_cors import CORS
 from PIL import Image
 import cv2
 import numpy as np
@@ -17,6 +18,7 @@ import subprocess
 import shutil
 
 app = Flask(__name__)
+CORS(app)
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB max upload
 
 # Ensure temp directory exists
@@ -408,6 +410,5 @@ def decode_video():
 # ─────────────────────────────────────────────
 
 if __name__ == '__main__':
-    print("\n🔐 Steganography Web App starting...")
-    print("   Open http://localhost:5000 in your browser\n")
-    app.run(debug=True, port=5000)
+    print("\n🔐 Steganography Web App starting on port 10000...")
+    app.run(host='0.0.0.0', port=10000)

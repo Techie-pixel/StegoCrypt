@@ -1,13 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const themeToggle = document.getElementById('themeToggle');
-    const currentTheme = localStorage.getItem('theme');
+    const currentTheme = localStorage.getItem('theme') || 'dark';
 
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-
-        if (currentTheme === 'light') {
-            themeToggle.checked = true;
-        }
+    if (currentTheme === 'light') {
+        themeToggle.checked = true;
+    } else {
+        themeToggle.checked = false;
     }
 
     themeToggle.addEventListener('change', function() {
