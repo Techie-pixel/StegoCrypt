@@ -19,7 +19,14 @@ import shutil
 
 app = Flask(__name__)
 CORS(app)
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100 MB max upload
+# Removed max upload size limit for Oracle VPS to allow multi-GB files.
+# Alternatively, set to 5GB (5 * 1024 * 1024 * 1024) if you want a soft limit.
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024 * 1024  
+
+# Health Check Route to test backend deployment
+@app.route('/health', methods=['GET'])
+def health_check():
+    return jsonify({"status": "healthy", "message": "Backend is running flawlessly on Oracle Cloud!"})
 
 # Ensure temp directory exists
 UPLOAD_FOLDER = os.path.join(tempfile.gettempdir(), 'stegano_uploads')
@@ -410,5 +417,5 @@ def decode_video():
 # ─────────────────────────────────────────────
 
 if __name__ == '__main__':
-    print("\n🔐 Steganography Web App starting on port 10000...")
-    app.run(host='0.0.0.0', port=10000)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
