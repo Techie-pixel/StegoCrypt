@@ -1,8 +1,8 @@
-# 🔐 StegoCrypt - Advanced Steganography Tool
+# StegoCrypt - Advanced Steganography Tool
 
 Complete Python-based Steganography application with a modern Web GUI for hiding secret messages in multimedia files using Flask.
 
-## ✨ Features
+## Features
 
 - **Image Steganography**: Hide messages in PNG, JPG, JPEG, BMP images
 - **Audio Steganography**: Hide messages in WAV audio files
@@ -11,7 +11,7 @@ Complete Python-based Steganography application with a modern Web GUI for hiding
 - **LSB Encoding**: Uses Least Significant Bit technique
 - **Secure**: Messages hidden imperceptibly with binary delimiters
 
-## 🚀 Installation
+## Installation
 
 ### Step 1: Install Python
 Make sure you have Python 3.8 or higher installed.
@@ -33,12 +33,12 @@ python app.py
 
 Open `http://localhost:5000` in your browser.
 
-## 📖 How to Use
+## How to Use
 
 ### Image Steganography
 
 #### Encoding:
-1. Go to the "🖼️ Image" tab.
+1. Go to the "Image" tab.
 2. Drag and drop or click to browse for an image file.
 3. Type your secret message in the "Secret Message" box.
 4. Click "Encode & Download".
@@ -53,7 +53,7 @@ Open `http://localhost:5000` in your browser.
 ### Audio Steganography
 
 #### Encoding:
-1. Go to the "🎵 Audio" tab.
+1. Go to the "Audio" tab.
 2. Select a WAV audio file.
 3. Enter your secret message.
 4. Click "Encode & Download".
@@ -69,7 +69,7 @@ Open `http://localhost:5000` in your browser.
 ### Video Steganography
 
 #### Encoding:
-1. Go to the "🎬 Video" tab.
+1. Go to the "Video" tab.
 2. Upload a video file (MP4, AVI, MKV).
 3. Enter your secret message.
 4. Click "Encode & Download".
@@ -82,7 +82,7 @@ Open `http://localhost:5000` in your browser.
 2. Click "Decode Message".
 3. Extract your hidden message!
 
-## 🛠️ Technical Details
+## Technical Details
 
 ### LSB (Least Significant Bit) Technique
 The application uses LSB steganography which modifies the least significant bit of pixel/audio/video data to hide information. This makes changes imperceptible to human eyes/ears.
@@ -96,7 +96,7 @@ The application uses LSB steganography which modifies the least significant bit 
 ### Delimiter
 Uses binary delimiter `1111111111111110` to mark the end of the hidden message.
 
-## 📊 Project Structure
+## Project Structure
 
 ```
 steganography-project/
@@ -106,7 +106,7 @@ steganography-project/
 └── README.md               # Documentation
 ```
 
-## ⚠️ Important Notes
+## Important Notes
 
 1. **Image**: Always use the downloaded PNG to preserve hidden data.
 2. **Audio**: WAV format is preferred for high-fidelity data hiding.
@@ -114,7 +114,7 @@ steganography-project/
 4. **Message Size**: Ensure the message fits within the media's capacity.
 5. **Original Files**: Keep backups of your original media files.
 
-## 🎓 For Academic Projects
+## For Academic Projects
 
 This tool is perfect for:
 - Computer Science microprojects
@@ -122,7 +122,7 @@ This tool is perfect for:
 - Data hiding demonstrations
 - Information security coursework
 
-## 🐛 Troubleshooting
+## Troubleshooting
 
 ### Error: "Message too large"
 - Use a larger image/audio/video file or shorten your message.
@@ -133,7 +133,7 @@ This tool is perfect for:
 ### Audio not working
 - Ensure the file is a valid audio format. Convert to WAV if necessary.
 
-## 📝 Example Usage
+## Example Usage
 
 ```python
 # Simple example of how the encoding works
@@ -142,7 +142,7 @@ message = "Hello Secret World!"
 # Hides in LSB of pixels/audio samples
 ```
 
-## 🎨 UI Features
+## UI Features
 
 - **Glassmorphism Design**: Modern, frosted-glass look.
 - **Day/Night Modes**: Switch themes easily with a toggle.
@@ -150,20 +150,20 @@ message = "Hello Secret World!"
 - **Toast Notifications**: Clean success/error alerts.
 - **Animated Background**: Cyberpunk-style Matrix animation.
 
-## 💡 Tips
+## Tips
 
 1. Use PNG for images to avoid data loss from compression.
 2. Larger media files provide more "space" for longer messages.
 3. Test with short messages first to understand the flow.
 4. Encoded files look identical to the originals to the naked eye.
 
-## 🔒 Security Note
+## Security Note
 
 This is for educational purposes. For real security needs:
 - Encrypt your message before hiding it.
 - Use strong passwords and additional security layers.
 
-## 🌟 Credits
+## Credits
 
 Developed for educational and research purposes.
 Uses standard steganography techniques taught in computer science.
